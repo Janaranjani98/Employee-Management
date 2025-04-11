@@ -17,17 +17,16 @@ public class UserInfoService {
     private UserInfoRepository userRepository;
 
 
-    private final PasswordEncoder passwordEncoder;
 
-    public UserInfoService(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
+//    public UserInfoService(PasswordEncoder passwordEncoder) {
+//        this.passwordEncoder = passwordEncoder;
+//    }
 
     public UserInfo registerUser(UserInfoDTO userDto){
         UserInfo user = new UserInfo();
         user.setName(userDto.getName());
         user.setEmailId(userDto.getEmailId());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setPassword(userDto.getPassword());
         user.setRole(userDto.getRole());
         return userRepository.save(user);
     }
