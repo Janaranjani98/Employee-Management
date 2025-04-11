@@ -1,5 +1,6 @@
 package com.employeeManagement.entity;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -9,8 +10,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Getter
-@Setter
 @Entity
 public class UserInfo {
     @Id

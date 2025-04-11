@@ -1,5 +1,6 @@
 package com.employeeManagement.entity;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -10,8 +11,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Data
 @Entity
-@Getter
-@Setter
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
