@@ -31,14 +31,14 @@ public class UserInfoDTO {
     private Role role;
 
     @NotNull
-    private String name;
+    private String userName;
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public long getId() {
@@ -78,11 +78,11 @@ public class UserInfoDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserInfoDTO that = (UserInfoDTO) o;
-        return id == that.id && Objects.equals(emailId, that.emailId) && Objects.equals(password, that.password) && role == that.role && Objects.equals(name, that.name);
+        return id == that.id && Objects.equals(emailId, that.emailId) && Objects.equals(password, that.password) && role == that.role && Objects.equals(userName, that.userName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, emailId, password, role, name);
+        return Objects.hash(id, emailId, password, role, userName);
     }
 }
