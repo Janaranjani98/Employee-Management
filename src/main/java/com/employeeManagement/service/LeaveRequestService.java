@@ -33,22 +33,22 @@ public class LeaveRequestService {
         return leaveRepository.save(l);
     }
 
-    public LeaveRequest approveLeave(long id,UserInfoDTO userInfoDTO){
+    public LeaveRequest approveLeave(long id){
         LeaveRequest leaveRequest = leaveRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Leave request not found"));
-        if(userInfoDTO.getRole()!=Role.HR){
-            throw new RuntimeException("You dont have required priviliges");
-        }
+//        if(userInfoDTO.getRole()!=Role.HR){
+//            throw new RuntimeException("You dont have required priviliges");
+//        }
         leaveRequest.setStatus(Status.Approved);
         return leaveRepository.save(leaveRequest);
 
     }
-    public LeaveRequest rejectLeave(long id,UserInfoDTO userInfoDTO){
+    public LeaveRequest rejectLeave(long id){
         LeaveRequest leaveRequest = leaveRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Leave request not found"));
-        if(userInfoDTO.getRole()!=Role.HR){
-            throw new RuntimeException("You dont have required priviliges");
-        }
+//        if(userInfoDTO.getRole()!=Role.HR){
+//            throw new RuntimeException("You dont have required priviliges");
+//        }
         leaveRequest.setStatus(Status.Rejected);
         return leaveRepository.save(leaveRequest);
 

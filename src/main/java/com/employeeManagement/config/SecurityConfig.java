@@ -40,8 +40,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(customizer ->customizer.disable())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/create","/api/authenticate","/api/healthcheck/up").permitAll()
-                        .requestMatchers("/api/users").hasRole("Admin")
+                        .requestMatchers("/api/create",
+                                "/api/authenticate",
+                                "/api/healthcheck/up",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-resources/**",
+                                "/webjars/**",
+                                "/configuration/ui",
+                                "/configuration/security"
+                        ).permitAll()
+                       // .requestMatchers("/api/users").hasRole("Admin")
                         .anyRequest().authenticated())
             //    .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

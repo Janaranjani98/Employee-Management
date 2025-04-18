@@ -22,31 +22,31 @@ public class PayRollService {
     @Autowired
     private EmployeeRepository empRepository;
 
-    public PayRoll generatePayRoll(Long id,UserInfoDTO userInfoDTO){
+    public PayRoll generatePayRoll(Long id,PayRollDTO payRollDTO){
         Employee emp = empRepository.findById(id)
                 .orElseThrow(() ->new RuntimeException("Employee not found"));
 
-        if(userInfoDTO.getRole()!=Role.Employee){
-            throw new RuntimeException("You don't have required privileges");
-        }
+//        if(userInfoDTO.getRole()!=Role.Employee){
+//            throw new RuntimeException("You don't have required privileges");
+//        }
 
         PayRoll payRoll = new PayRoll();
-        payRoll.setBasicSalary(new BigDecimal("50000.00"));
-        payRoll.setDeductions(new BigDecimal("6000.00"));
-        payRoll.setNetSalary(payRoll.getBasicSalary().subtract(payRoll.getDeductions()));
-        payRoll.setPayDate(LocalDate.of(2025,04,01));
+        payRoll.setBasicSalary(payRollDTO.getBasicSalary());
+        payRoll.setDeductions(payRollDTO.getDeductions());
+        payRoll.setNetSalary(payRollDTO.getNetSalary());
+        payRoll.setPayDate(payRollDTO.getPayDate());
         payRoll.setEmployee(emp);
 
         return payRepository.save(payRoll);
     }
 
-    public PayRoll updatePayRoll(Long id, PayRollDTO payDto, UserInfoDTO userInfoDTO){
+    public PayRoll updatePayRoll(Long id, PayRollDTO payDto){
         PayRoll payRoll=payRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("Pay roll not found"));
 
-        if(userInfoDTO.getRole()!= Role.Admin && userInfoDTO.getRole()!=Role.HR){
-            throw new RuntimeException("Your don't have required privilieges");
-        }
+//        if(userInfoDTO.getRole()!= Role.Admin && userInfoDTO.getRole()!=Role.HR){
+//            throw new RuntimeException("Your don't have required privilieges");
+//        }
         payRoll.setBasicSalary(payDto.getBasicSalary());
         payRoll.setDeductions(payDto.getDeductions());
         payRoll.setNetSalary(payDto.getBasicSalary().subtract(payDto.getDeductions()));

@@ -8,6 +8,7 @@ import com.employeeManagement.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,9 +20,10 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    @PostMapping("/employees")
-    public ResponseEntity<List<Employee>> getAllEmployees(@RequestBody UserInfoDTO userInfoDTO){
-        List<Employee> emp = employeeService.getAllEmployee(userInfoDTO);
+    @GetMapping("/employees")
+    @PreAuthorize("hasAnyRole('Admin','HR')")
+    public ResponseEntity<List<Employee>> getAllEmployees(){
+        List<Employee> emp = employeeService.getAllEmployee();
         return new ResponseEntity<>(emp, HttpStatus.OK);
     }
 
@@ -31,13 +33,15 @@ public class EmployeeController {
         return new ResponseEntity<>(emp,HttpStatus.OK);
     }
     @PostMapping("/employee/add")
+    @PreAuthorize("hasAnyRole('HR','Admin')")
     public ResponseEntity<Employee> addEmployee(@RequestBody EmployeeDTO employeeDTO){
         employeeService.addEmployee(employeeDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @DeleteMapping("/employee/{id}")
-    public ResponseEntity<Void> deleteById(@RequestBody UserInfoDTO userInfoDTO,@PathVariable Long id){
-        employeeService.deleteById(id,userInfoDTO);
+    @PreAuthorize("hasRole('Admin')")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id){
+        employeeService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
 
     }

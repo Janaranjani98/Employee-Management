@@ -1,6 +1,7 @@
 package com.employeeManagement.dto;
 
 import com.employeeManagement.entity.Role;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -25,6 +26,7 @@ public class UserInfoDTO {
 
     @NotNull(message = "Password cannot be null")
     @Size(min=8,max = 100)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @NotNull

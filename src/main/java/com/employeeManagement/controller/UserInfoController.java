@@ -11,39 +11,41 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api")
 public class UserInfoController {
 
     @Autowired
     private UserInfoService userInfoService;
 
     @PostMapping("/create")
-    public ResponseEntity<UserInfo> createUser(@RequestBody @Valid UserInfoDTO userInfoDTO){
-        UserInfo userInfo =userInfoService.registerUser(userInfoDTO);
+    public ResponseEntity<String> createUser(@RequestBody @Valid UserInfoDTO userInfoDTO){
+        String userInfo =userInfoService.registerUser(userInfoDTO);
         return new ResponseEntity<>(userInfo, HttpStatus.CREATED);
     }
     @PostMapping("/authenticate")
-    public ResponseEntity<String> authenticateUser(@RequestBody @Valid UserInfoDTO userInfoDTO){
-        String n =userInfoService.authenticateUser(userInfoDTO);
-        return new ResponseEntity<>(n,HttpStatus.OK);
+    public ResponseEntity<String> authenticateUser(@RequestBody Map<String,String> loginData){
+        String token = userInfoService.authenticateUser(loginData.get("userName"),loginData.get("password"));
+        //String n =userInfoService.authenticateUser(userInfoDTO);
+        return new ResponseEntity<>(token,HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("user/{id}")
     public ResponseEntity<UserInfo> updateUserInfo(@RequestBody @Valid UserInfoDTO userInfoDTO, @PathVariable Long id){
         UserInfo user = userInfoService.updateUser(id,userInfoDTO);
         return new ResponseEntity<>(user,HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/user/{id}")
     public ResponseEntity<UserInfo> getUserById(@PathVariable Long id){
         UserInfo user= userInfoService.getUserById(id);
         return new ResponseEntity<>(user,HttpStatus.OK);
     }
-    @PostMapping
-    public ResponseEntity<List<UserInfo>> getAllUsers(@RequestBody UserInfoDTO userInfoDTO){
-        List<UserInfo> userInfo=userInfoService.getAllUsers(userInfoDTO);
+    @GetMapping("/users")
+    public ResponseEntity<List<UserInfo>> getAllUsers(){
+        List<UserInfo> userInfo=userInfoService.getAllUsers();
         return new ResponseEntity<>(userInfo,HttpStatus.OK);
     }
 

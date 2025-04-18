@@ -7,6 +7,7 @@ import com.employeeManagement.service.LeaveRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class LeaveRequestController {
     private LeaveRequestService leaveRequestService;
 
     @PostMapping("/apply")
+    @PreAuthorize("hasRole('Employee')")
     public ResponseEntity<LeaveRequest> applyLeave(@RequestBody LeaveRequestDTO leaveRequestDTO){
         LeaveRequest leaveRequest =leaveRequestService.applyForLeave(leaveRequestDTO);
         return new ResponseEntity<>(leaveRequest, HttpStatus.CREATED);
@@ -30,16 +32,19 @@ public class LeaveRequestController {
         return new ResponseEntity<>(leaves,HttpStatus.OK);
     }
     @PutMapping("/approve/{id}")
-    public ResponseEntity<LeaveRequest> approveLeave(@PathVariable Long id, @RequestBody UserInfoDTO userInfoDTO){
-        LeaveRequest leaveRequest = leaveRequestService.approveLeave(id,userInfoDTO);
+    @PreAuthorize("hasRole('HR')")
+    public ResponseEntity<LeaveRequest> approveLeave(@PathVariable Long id){
+        LeaveRequest leaveRequest = leaveRequestService.approveLeave(id);
         return new ResponseEntity<>(leaveRequest,HttpStatus.OK);
     }
     @PutMapping("/reject/{id}")
-    public ResponseEntity<LeaveRequest> rejectLeave(@PathVariable Long id,@RequestBody UserInfoDTO userInfoDTO){
-        LeaveRequest leaveRequest=leaveRequestService.rejectLeave(id,userInfoDTO);
+    @PreAuthorize("hasRole('HR')")
+    public ResponseEntity<LeaveRequest> rejectLeave(@PathVariable Long id){
+        LeaveRequest leaveRequest=leaveRequestService.rejectLeave(id);
         return new ResponseEntity<>(leaveRequest,HttpStatus.OK);
     }
     @PutMapping("/cancel/{id}")
+    @PreAuthorize("hasRole('Employee')")
     public ResponseEntity<LeaveRequest> cancelLeave(@PathVariable Long id){
         LeaveRequest leaveRequest = leaveRequestService.cancelLeave(id);
         return new ResponseEntity<>(leaveRequest,HttpStatus.OK);

@@ -17,11 +17,10 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository empRepository;
 
-    public List<Employee> getAllEmployee(UserInfoDTO userInfoDTO){
-        if(userInfoDTO.getRole()!=Role.Admin && userInfoDTO.getRole()!=Role.HR){
-            throw new RuntimeException("Don't have required Permissions");
-        }
-
+    public List<Employee> getAllEmployee(){
+//        if(userInfoDTO.getRole()!=Role.Admin && userInfoDTO.getRole()!=Role.HR){
+//            throw new RuntimeException("Don't have required Permissions");
+//        }
         return empRepository.findAll();
     }
 
@@ -52,11 +51,11 @@ public class EmployeeService {
         return employee;
     }
 
-    public void deleteById(long id,UserInfoDTO userInfoDTO){
-        if(userInfoDTO.getRole()!=Role.Admin){
-            throw new RuntimeException("Don't have required Permissions");
-        }
-        empRepository.deleteById(id);
+    public void deleteById(long id){
+//        if(userInfoDTO.getRole()!=Role.Admin){
+//            throw new RuntimeException("Don't have required Permissions");
+//        }
+empRepository.deleteById(id);
     }
 //Pending item update and delete an employee
 
