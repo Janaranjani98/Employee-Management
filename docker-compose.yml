@@ -22,6 +22,7 @@ services:
       - s-network
     volumes:
       - postgres-s-data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d
 
 networks:
   s-network:

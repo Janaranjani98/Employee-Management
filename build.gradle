@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.10'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id "org.sonarqube" version "4.4.1.3373"
 }
 
 group = 'com.employeeManagement'
@@ -41,8 +42,25 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.4'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.4'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.4'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'org.mockito:mockito-core'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+sonar {
+	properties {
+		property "sonar.projectKey", "employee-management"
+		property "sonar.projectName", "Employee Management App"
+		property "sonar.host.url", "http://localhost:9000"
+		// optional if authentication is enabled:
+		property "sonar.token", "squ_36cf14e5d92224971d47838637d0fac47d4f212c"
+	}
+}
+
